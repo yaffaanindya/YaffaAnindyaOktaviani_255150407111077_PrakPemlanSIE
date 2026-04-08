@@ -1,39 +1,45 @@
 public class AmongUsGame {
+
     public static void main(String[] args) {
-        // Create references of Character
-        Character brian, cindy, david, jacky;
-        
+
+        Crew brian, cindy, david;
+        Impostor jacky;
+
         brian = new Crew("Brian");
         cindy = new Crew("Cindy");
         david = new Crew("David");
-        jacky = new Crew("Jacky");
+        jacky = new Impostor("Jacky");
 
         brian.doWork();
         cindy.doWork();
         david.doWork();
         jacky.doWork();
-        
-        jacky = (Character) new Impostor(jacky);
-        
+
         jacky.kill(cindy);
-        
-        if (david instanceof Crew) {
-            Crew crew = (Crew) david;
-            crew.callMeeting();
-        }
-        
+
+        david.callMeeting();
+        cindy.callMeeting();
+
+        IKickable k1 = brian;
+        IKickable k2 = jacky;
+        k1.kick();
+        k2.kick();
+
         AmongUsGame.check(brian);
         AmongUsGame.check(david);
         AmongUsGame.check(jacky);
+
     }
-    
-    public static void check(Character ch) {
-        if (AmongUsGame.isImpostor(ch))
-        System.out.println(ch.name + " is the impostor!");
-        else System.out.println(ch.name + " is not the impostor.");
+
+    public static void check(ICrew crew) {
+        if (AmongUsGame.isImpostor(crew))
+            System.out.println(crew.getName() + " is the impostor!");
+        else
+            System.out.println(crew.getName() + " is not the impostor.");
     }
-    
-    public static boolean isImpostor(Character ch) {
-        return (ch instanceof Impostor);
+
+    public static boolean isImpostor(ICrew crew) {
+        return (crew instanceof Impostor);
     }
+
 }
